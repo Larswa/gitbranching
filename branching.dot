@@ -1,0 +1,87 @@
+digraph g{
+    rankdir="LR";
+    pad=0.3;
+    nodesep=0.3;
+    ranksep=0.3;
+    splines=line
+    forcelabels=false;
+
+    node [width=0.12, height=0.12, fixedsize=true,
+        shape=circle, style=filled, color="#909090",
+        fontcolor="deepskyblue", font="Consolas", fontsize="11pt"];
+    edge [arrowhead=none, color="#909090", penwidth=2];
+
+
+node  [group="master"];
+
+
+    //Master branch
+    m0    [label="master\n\n", width=0.03, height=0.03, shape=box];
+    m1    [label=""];
+    m2    [label=""];
+    r11   [label="R1.1\n\n\n"];
+    m3    [label="", width=0.03, height=0.03, shape=box];
+    e3f   [label="", width=0.03, height=0.03, shape=circle, color="#b0b0b0"];
+    m0 -> mvp0
+    m0 -> m1 [color="#b0b0b0", style=dashed];
+    m1 -> m2 -> r11 -> m3;
+    m3 -> e3f [color="#b0b0b0", style=dashed, arrowhead=none];
+
+
+    //UAT branch
+    node  [group="uat"];
+    uat1    [label="uat\n\n", width=0.03, height=0.03, shape=box];
+    uat2    [label=""];
+    uat3    [label=""];
+    uat4    [label=""];
+    uat1 -> uat2 -> uat3 -> uat4;
+    uat4 -> m1 [arrowhead=normal];
+
+    //Bugfix feature in UAT
+    node  [group="uatbugfix"];
+    uatbf1    [label="", xlabel="bugfix" ];
+    uatbf1commit [label=""];
+    uatbf1touat [label=""];
+    uatbf1 -> uatbf1commit -> uatbf1touat
+    uat2 -> uatbf1 [arrowhead=normal];
+    uatbf1touat -> uat3 [arrowhead=normal];
+
+
+    //MVP1 development branch. Originally branched from Master
+    node  [group="mvp1"];
+    mvp0 [label=""];
+    mvp1 [label="     mvp1\n\n", width=0.03, height=0.03, shape=box];
+    mvp1f1start [label=""];
+    mvp1f1end   [label="feature1\n\n\n"];
+    mvp1f2start   [label=""];
+    mvp1f2end   [label="feature2\n\n\n"];
+    mvp1uat [label=""];
+    e1    [label="", width=0.03, height=0.03, shape=box];
+    e1f   [label="", width=0.03, height=0.03, shape=circle, color="#b0b0b0"];
+    mvp0 -> mvp1 -> mvp1f1start -> mvp1f1end -> mvp1f2start -> mvp1f2end -> mvp1uat -> e1;
+    e1 -> e1f [color="#b0b0b0", style=dashed, arrowhead=none];
+
+    //Branching to UAT
+    mvp1uat -> uat1 [arrowhead=normal];
+
+    //Feature 1 and 2 for MVP1
+    node  [group="feature1"];
+    f1    [label="", xlabel="feature 1" ];
+    f1commit [label=""];
+    f1tomvp1 [label=""];
+    f1 -> f1commit -> f1tomvp1
+
+    mvp1f1start -> f1 [arrowhead=normal];
+    f1tomvp1 -> mvp1f1end [arrowhead=normal];
+
+    node  [group="feature2"];
+    f2    [label="", xlabel="feature 2" ];
+    f2commit [label=""];
+    f2tomvp1 [label=""];
+    f2 -> f2commit -> f2tomvp1
+
+    mvp1f2start -> f2 [arrowhead=normal];
+    f2tomvp1 -> mvp1f2end [arrowhead=normal];
+
+
+}

@@ -1,0 +1,135 @@
+strict digraph g{
+rankdir="LR";
+nodesep=0.5;
+ranksep=0.25;
+splines=line;
+forcelabels=false;
+
+// general
+node [style=filled, color="black",
+    fontcolor="black", font="Consolas", fontsize="10pt" ];
+edge [arrowhead=normal, color="black", penwidth=2];
+
+// branch names
+node [fixedsize=false, penwidth=0, fillcolor=none, shape=none, width=0, height=0, margin="0.05"];
+subgraph {
+    rank=sink;
+    me [label="master", group="master"];
+}
+subgraph {
+    rank=sink;
+    de [label="develop", group="develop"];
+}
+
+// tags
+node [shape=cds, fixedsize=false, fillcolor="#C6C6C6", penwidth=1, margin="0.11,0.055"]
+t1 [label="0.1"]
+t2 [label="0.2"]
+t21 [label="0.2.1"]
+t3 [label="1.0"]
+
+// graph
+node [width=0.2, height=0.2, fixedsize=true, label="", margin="0.11,0.055", shape=circle, penwidth=2, fillcolor="#FF0000"]
+
+// branches
+node  [group="masterfeatures", fillcolor="#FD59658080ff"];
+mf1;
+
+node  [group="master", fillcolor="#27E4F9"];
+m1;
+m2;
+m21;
+m3;
+m4;
+subgraph {
+    rank=source;
+    ms [label="", width=0, height=0, penwidth=0];
+}
+m1 -> m2 -> m21 -> m3 -> m4;
+ms -> m1 [color="#b0b0b0", style=dashed, arrowhead=none ];
+m4 -> me [color="#b0b0b0", style=dashed, arrowhead=none ];
+
+
+node  [group="hotfixes", fillcolor="#FD5965"];
+h1;
+
+
+
+node  [group="release", fillcolor="#52C322"];
+r1;
+r2;
+r3;
+r4;
+r5;
+r1 -> r2 -> r3 -> r4;
+
+node  [group="develop", fillcolor="#FFE333"];
+d1;
+d2;
+d3;
+d4;
+d5;
+d51;
+d6;
+d7;
+d8;
+d9;
+d10;
+d1 -> d2 -> d3 -> d4 -> d5 -> d51 -> d6 -> d7 -> d8 -> d9 -> d10;
+d10 -> de [color="#b0b0b0", style=dashed, arrowhead=none ];
+
+node  [group="feature 1", fillcolor="#FB3DB5"];
+fa1;
+fa2;
+fa3;
+fa4;
+fa5;
+fa6;
+subgraph fas1 {
+    fa1 -> fa2 -> fa3;
+}
+subgraph fas2 {
+    fa4 -> fa5 -> fa6;
+}
+
+// nodes
+m1 -> d1 [arrowhead=normal];
+m1 -> h1 [arrowhead=normal];
+h1 -> m2 [arrowhead=normal];
+m2 -> mf1 [arrowhead=normal];
+mf1 -> m21 [arrowhead=normal];
+mf1 -> d51 [arrowhead=normal];
+h1 -> d5 [arrowhead=normal];
+d3 -> fa1 [arrowhead=normal];
+fa3 -> d6 [arrowhead=normal];
+d6 -> r1 [arrowhead=normal];
+r2 -> d7 [arrowhead=normal];
+r4 -> d8 [arrowhead=normal];
+r4 -> m3 [arrowhead=normal];
+d9 -> r5 [arrowhead=normal];
+r5 -> m4 [arrowhead=normal];
+r5 -> d10 [arrowhead=normal];
+
+d7 -> fa4 [arrowhead=normal];
+fa6 -> d9 [arrowhead=normal];
+
+
+// tags connections
+edge [color="#b0b0b0", style=dotted, len=0.3, arrowhead=none, penwidth=1];
+subgraph  {
+    rank="same";
+    m1 -> t1;
+}
+subgraph  {
+    rank="same";
+    m2 -> t2 ;
+}
+subgraph  {
+    rank="same";
+    m21 -> t21 ;
+}
+subgraph  {
+    rank="same";
+    m3 -> t3;
+}
+}

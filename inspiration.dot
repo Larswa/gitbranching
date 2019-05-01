@@ -28,6 +28,8 @@ t2 [label="0.2"]
 t21 [label="0.2.1"]
 t3 [label="1.0"]
 
+
+
 // graph
 node [width=0.2, height=0.2, fixedsize=true, label="", margin="0.11,0.055", shape=circle, penwidth=2, fillcolor="#FF0000"]
 
@@ -46,13 +48,12 @@ subgraph {
     ms [label="", width=0, height=0, penwidth=0];
 }
 m1 -> m2 -> m21 -> m3 -> m4;
-ms -> m1 [color="#b0b0b0", style=dashed, arrowhead=none ];
-m4 -> me [color="#b0b0b0", style=dashed, arrowhead=none ];
+ms -> m1 [color="grey", style=dashed, arrowhead=none ];
+m4 -> me [color="grey", style=dashed, arrowhead=none ];
 
 
 node  [group="hotfixes", fillcolor="red"];
 h1;
-
 
 
 node  [group="release", fillcolor="#52C322"];
@@ -76,7 +77,7 @@ d8;
 d9;
 d10;
 d1 -> d2 -> d3 -> d4 -> d5 -> d51 -> d6 -> d7 -> d8 -> d9 -> d10;
-d10 -> de [color="#b0b0b0", style=dashed, arrowhead=none ];
+d10 -> de [color="grey", style=dashed, arrowhead=none ];
 
 node  [group="feature 1", fillcolor="#FB3DB5"];
 fa1;
@@ -115,7 +116,7 @@ fa6 -> d9 [arrowhead=normal];
 
 
 // tags connections
-edge [color="#b0b0b0", style=dotted, len=0.3, arrowhead=none, penwidth=1];
+edge [color="grey", style=dotted, len=0.3, arrowhead=none, penwidth=1];
 subgraph  {
     rank="same";
     m1 -> t1;
@@ -132,4 +133,70 @@ subgraph  {
     rank="same";
     m3 -> t3;
 }
+
+//Descriptions
+node [shape=note, fixedsize=false, fillcolor="white", penwidth=1, margin="0.01,0.03", fontsize="8pt"]
+
+minorfeature [label="minor new feature developed 
+in own feature branch and merged 
+back in though merge request.
+Shortly lived. =< 1 day"]
+
+majorfeature [label="Bigger features developed 
+in longer lived feature 
+branches. => 1 day"]
+
+
+hotfix [label="Severe bug fixed 
+for production. 
+Will be merged back 
+into Development"]
+
+masterfeature [label="New feature  
+for production. 
+implemented by  
+Digital Claims teams"]
+
+uatbranch [label="New release branch when 
+feature complete and  
+ready for production."]
+
+uatbugfix [label="Only bugfixes 
+are committed to 
+UAT branch.
+And merged back to dev"]
+
+
+
+// link documentation
+edge [color="grey", style=solid, arrowhead=normal, penwidth=1];
+
+subgraph {
+    rank="same"
+    d2 -> minorfeature []
+}subgraph {
+    rank="same"
+    fa1 -> majorfeature []
+}
+
+
+subgraph {
+    rank="same"
+    h1 -> hotfix
+}
+subgraph {
+    rank="same"
+    mf1 -> masterfeature []
+}
+subgraph {
+    rank="same"
+    r1 -> uatbranch []
+}
+
+subgraph {
+    rank="same"
+    r2 -> uatbugfix []
+}
+
+
 }
